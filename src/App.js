@@ -6,8 +6,9 @@ import {
   Box,
   Button,
   Text,
-  SimpleGrid,
   Image,
+  Stack,
+  HStack,
 } from "@chakra-ui/react";
 import Select from "react-select";
 import Layout from "./components/Layout";
@@ -38,25 +39,32 @@ function valueSort(a, b) {
 function App() {
   //set state of properties
   const [properties, setProperties] = useState(sampleProperties);
+  let isEmptyProperty = properties.length === 0;
 
   //using useEffect Hook to create side effect
-  useEffect(() => {}, [properties]);
+  useEffect(() => {
+    console.log(properties);
+  }, [properties]);
 
   //Get the props from select options
   const [bed, setBed] = useState(0);
   const [price, setPrice] = useState(0);
   const [bath, setBath] = useState(0);
   const [type, setType] = useState("");
+  console.log("Beds :", bed, "Price :", price, "Bath :", bath, "Type :", type);
 
   //Select options
-  const prices = uniqueBy("price").sort(valueSort).map(toOptions);
+  const prices = uniqueBy("price")
+    .sort(valueSort)
+    .map((p) => {
+      return { value: p, label: `<=${p.toString()}` };
+    });
   const beds = uniqueBy("beds").sort(valueSort).map(toOptions);
   const baths = uniqueBy("baths").sort(valueSort).map(toOptions);
   const types = uniqueBy("type").map(toOptions);
 
-  //filter the properties
+  //Filter the properties
   function filterProperies() {
-    console.log("bed",bed,"price", price,"bath", bath,"type",type);
     const filteredProps = sampleProperties
       .filter((prop) => {
         if (!bath) return true;
@@ -74,6 +82,10 @@ function App() {
         if (!type) return true;
         else return prop["type"] === type;
       });
+    setBed(0);
+    setPrice(0);
+    setBath(0);
+    setType("");
     setProperties(filteredProps);
   }
 
@@ -84,46 +96,55 @@ function App() {
           Search properties for rent
         </Text>
         <Box>
-          <SimpleGrid minChildWidth="150px" spacing="10px">
-            <Select
-              options={prices}
-              placeholder="Price"
-              onChange={(e) => setPrice(e.value)}
-            />
+          <Stack direction={["column", "row"]} spacing="24px">
             <Spacer />
+            <Select
+            className="basic-single"
+            placeholder=" Price of Property "
+            options={prices}
+            onChange={(e) => setPrice(e.value)}
+            />
             <Select
               placeholder="No. of Beds"
               options={beds}
               onChange={(e) => setBed(e.value)}
             />
-            <Spacer />
             <Select
+              w="10px"
               options={types}
-              placeholder="Type"
+              placeholder="Type of Property"
               variant="Outline"
               onChange={(e) => setType(e.value)}
             />
-            <Spacer />
             <Select
               options={baths}
               placeholder="No. of Bathroom"
               variant="Outline"
               onChange={(e) => setBath(e.value)}
             />
-            <Spacer />
             <Button colorScheme="blue" onClick={filterProperies}>
               Search
             </Button>
-          </SimpleGrid>
+          </Stack>
         </Box>
-        <Flex flexWrap="wrap" p="2">
-          {properties.map((property) => (
-            <Property key={property.id} details={property} />
-          )) || (
-            <Box>
-              <Image src={NotFound} width={400} height={240} alt="property" />
+        <Flex flexWrap="wrap" paddingTop="5">
+          {(isEmptyProperty && (
+            <Box boxSize="xl">
+              <HStack spacing="24px">
+                <Image
+                  src={NotFound}
+                  width={1000}
+                  height={500}
+                  alt="property"
+                />
+                <Spacer />
+                <Text fontSize="8xl">Sorry no properties found</Text>
+              </HStack>
             </Box>
-          )}
+          )) ||
+            properties.map((property) => (
+              <Property key={property.id} details={property} />
+            ))}
         </Flex>
       </Layout>
     </ChakraProvider>

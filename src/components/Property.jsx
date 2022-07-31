@@ -5,14 +5,6 @@ import { Image } from "@chakra-ui/react";
 import { TbSmartHome } from "react-icons/tb";
 
 const Property = ({ details: { image, price, beds, baths, area, type } }) => {
-  /*if(!price)
-  {
-    return(
-      <Box>
-        <img src={NotFound} width={400} height={260} alt="property" />
-      </Box>
-    );
-  }*/
   return (
     <Flex
       flexWrap="wrap"
@@ -23,7 +15,7 @@ const Property = ({ details: { image, price, beds, baths, area, type } }) => {
       cursor="pointer"
     >
       <Box>
-        <Image src={image} width={400} height={260} alt="property" />
+        <Image src={image} width={380} height={260} alt="property" />
       </Box>
       <Box w="full">
         <Flex paddingTop="2" alignItems="center" justifyContent="space-between">
