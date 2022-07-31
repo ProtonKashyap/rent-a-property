@@ -135,7 +135,7 @@ function App() {
                   src={NotFound}
                   width={1000}
                   height={500}
-                  alt="property"
+                  alt="Not found"
                 />
                 <Spacer />
                 <Text fontSize="8xl">Sorry no properties found</Text>
