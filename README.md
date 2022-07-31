@@ -1,6 +1,6 @@
 # Rent A Property
 
-This is a Frontend Assignment by REUNION
+This is a Frontend Assignment given to me by REUNION
 
 ## About
 
