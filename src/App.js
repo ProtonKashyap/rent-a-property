@@ -82,10 +82,6 @@ function App() {
         if (!type) return true;
         else return prop["type"] === type;
       });
-    setBed(0);
-    setPrice(0);
-    setBath(0);
-    setType("");
     setProperties(filteredProps);
   }
 
